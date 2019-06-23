@@ -1,0 +1,11 @@
+{
+  "presets": [
+    ["@babel/preset-env", { "loose": true }],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    "@babel/plugin-proposal-class-properties",
+    ["import", { "libraryName": "antd-mobile", "style": "css" }],
+  ]
+}

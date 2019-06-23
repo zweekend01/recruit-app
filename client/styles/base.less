@@ -1,0 +1,193 @@
+@import './themes/index';
+@import './mixins/index';
+
+//  需要进一步完善
+
+// 当Javascript被禁止时，弹性布局的回退方案
+@media screen and (min-width: 576px) {
+  html { font-size: 57px; }
+}
+@media screen and (min-width: 768px) {
+  html { font-size: 76px; }
+}
+@media screen and (min-width: 992px) {
+  html { font-size: 99px; }
+}
+@media screen and (min-width: 1200px) {
+  html { font-size: 120px; }
+}
+
+
+@-ms-viewport {
+  width: device-width;
+}
+
+// Document
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// HTML
+html,
+body {
+  .square(100%);
+}
+
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -ms-overflow-style: scrollbar;
+  -webkit-tap-highlight-color: fade(@black, 0%);
+}
+
+// Body
+body {
+  margin: 0;
+  background-color: @body-background;
+  font-size: @font-size; // body中修正font-size大小，实现弹性布局中字体的缩放
+  font-family: @font-family;
+  font-variant: @font-variant;
+  line-height: @line-height;
+  color: @text-color;
+  font-feature-settings: @font-feature-settings;
+}
+
+// Shim for "new" HTML5 structural elements to display correctly (IE10, older browsers)
+article,
+aside,
+dialog,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+noscript {
+  display: block;
+}
+
+// Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 500;
+  color: @heading-color;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+abbr[title],
+abbr[data-original-title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+address {
+  margin-bottom: 1em;
+  font-style: normal;
+  line-height: inherit;
+}
+
+// List
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  margin-bottom: 0;
+}
+
+dt {
+  font-weight: 500;
+}
+
+dd {
+  margin-bottom: 0.5em;
+  margin-left: 0;
+}
+
+
+// Form
+input[type='text'],
+input[type='password'],
+input[type='number'],
+textarea {
+  -webkit-appearance: none;
+}
+
+// Links
+a {
+  background-color: transparent;
+  outline: none;
+  text-decoration: @link-decoration;
+  color: @link-color;
+  transition: color 0.3s;
+  -webkit-text-decoration-skip: objects;
+  cursor: pointer;
+  &:hover {
+    color: @link-hover-color;
+  }
+  &:active {
+    color: @link-active-color;
+  }
+  &:hover，
+  &:active {
+    text-decoration: @link-hover-decoration;
+    outline: 0;
+  }
+  &[disabled] {
+    color: @disabled-color;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+::selection {
+  color: @text-color-inverse;
+  background: @text-selection-bg;
+}
+
+:global {
+  // Clearfix
+  .clearfix {
+    zoom: 1;
+    &::before,
+    &::after {
+      display: table;
+      content: '';
+    }
+    &::after {
+      clear: both;
+    }
+  }
+
+  // Center by position
+  .position-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
