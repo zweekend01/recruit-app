@@ -4,7 +4,7 @@
   "description": "基于 NodeJS 实现的招聘网站",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ext .js -- ext .jsx client/",
+    "lint": "eslint --ext .js --ext .jsx client/",
     "dev:build": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.index.js",
     "clear": "rimraf public",
     "pro:build": "npm run clear && cross-env NODE_ENV=production webpack --config build/webpack.config.index.js",
