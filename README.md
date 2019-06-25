@@ -330,9 +330,28 @@ module.exports = {
     react \
     react-dom \
     react-css-modules \
-    antd-mobile \
+    prop-types \
     @babel/plugin-proposal-class-properties \
+    @bable/plugin-transform-runtime \
+    antd-mobile \
     babel-plugin-import
+```
+
+配置.babelrc文件
+
+```json
+{
+  "presets": [
+    ["@babel/preset-env", { "loose": true }],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    "@babel/plugin-proposal-class-properties",
+    "@bable/plugin-transform-runtime",
+    ["import", { "libraryName": "antd-mobile" }],
+  ]
+}
 ```
 
 - 配置全局的样式

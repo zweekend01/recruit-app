@@ -39,15 +39,14 @@ module.exports = {
         use: [{ loader: 'url-loader', options: { limie: 8192 } }]
       },
       {
-        test: /\.less$/,
+        test: /\.(less|css)$/,
         use: [
           'style-loader',
           {
             loader: 'css-loader',
             options: {
               modules: true,
-              importLoaders: 2,
-              camelCase: true
+              importLoaders: 2
             }
           },
           {

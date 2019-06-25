@@ -6,6 +6,7 @@
   "plugins": [
     "react-hot-loader/babel",
     "@babel/plugin-proposal-class-properties",
-    ["import", { "libraryName": "antd-mobile", "style": "css" }],
+    "@bable/plugin-transform-runtime",
+    ["import", { "libraryName": "antd-mobile" }],
   ]
 }
