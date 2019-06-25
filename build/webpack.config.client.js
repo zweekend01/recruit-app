@@ -39,7 +39,7 @@ module.exports = {
         use: [{ loader: 'url-loader', options: { limie: 8192 } }]
       },
       {
-        test: /\.(less|css)$/,
+        test: /\.less$/,
         use: [
           'style-loader',
           {
@@ -63,6 +63,26 @@ module.exports = {
           }
         ],
         exclude: [path.join(__dirname, '../node_modules')]
+      },
+      // 针对antd-mobile的样式
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss'
+            }
+          }
+        ],
+        include: /node_modules/
       }
     ]
   },

@@ -4,7 +4,7 @@ module.exports = {
     'postcss-preset-env': {},
     cssnano: {},
     autoprefixer: {
-      browsers: [
+      overrideBrowsers: [
         '>1%',
         'last 4 versions',
         'Firefox ESR',

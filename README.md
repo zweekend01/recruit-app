@@ -331,13 +331,14 @@ module.exports = {
     react-dom \
     react-css-modules \
     prop-types \
+    antd-mobile \
+    babel-plugin-import \
     @babel/plugin-proposal-class-properties \
     @bable/plugin-transform-runtime \
-    antd-mobile \
-    babel-plugin-import
+    axios
 ```
 
-配置.babelrc文件
+配置 .babelrc 文件中与 antd-mobile 组件库相关的参数：
 
 ```json
 {
@@ -349,14 +350,42 @@ module.exports = {
     "react-hot-loader/babel",
     "@babel/plugin-proposal-class-properties",
     "@bable/plugin-transform-runtime",
-    ["import", { "libraryName": "antd-mobile" }],
+    ["import", { "libraryName": "antd-mobile", "style": "css" }],
   ]
 }
 ```
 
 - 配置全局的样式
 
-解决 html 元素在各浏览器中兼容性的问题、实现基于 rem 的弹性布局、解决 antd-mobile 接入的一些第三方样式的冲突
+解决 html 元素在各浏览器中兼容性的问题、实现基于 rem 的弹性布局、解决 antd-mobile 接入的一些第三方样式的冲突, 在webpack.config.client.js 中添加配置：
+
+```javascript
+module.exports = {
+  modules: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss'
+            }
+          }
+        ],
+        include: /node_modules/
+      }
+    ]
+  }
+}
+```
 
 - 基于 axios 封装 http 请求
 

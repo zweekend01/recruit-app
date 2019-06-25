@@ -1,23 +1,20 @@
 import { hot } from 'react-hot-loader/root';
 import React, { Component, StrictMode } from 'react';
-import { Toast } from 'antd-mobile';
+import { Button } from 'antd-mobile';
+// import { to } from 'await-to-js';
+
+// import Http from './service/http';
 
 class App extends Component {
   state = {
     name: 'App'
   };
 
-  async componentDidMount() {
-    console.log('mount');
-    try {
-      this.fetchData();
-    } catch (error) {
-      Toast.fail(error.message);
-    }
+  componentDidMount() {
+
   }
 
-  fetchData = async () => {
-    throw new Error('获取数据失败');
+  onFetchData = async () => {
   }
 
   render() {
@@ -25,7 +22,10 @@ class App extends Component {
 
     return (
       <StrictMode>
-        <div>This is {name}!</div>
+        <div>
+          Hello wrold{name}
+          <Button type="primary" size="large" onClick={this.onFetchData}>Primary</Button>
+        </div>
       </StrictMode>
     );
   }

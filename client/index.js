@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ErrorBoundary from './ErrorBoundary';
 import App from './App';
 import './styles/index.less';
 
@@ -22,16 +21,7 @@ import './styles/index.less';
 // 前端异常的处理
 // 统一的上报错误，并给予提示
 
-
-// 捕获 HTML 和 CSS 资源加载的异常
-window.addEventListener('error', () => {});
-
-// 捕获 JS 运行时的异常
-window.onerror = () => {};
-
 ReactDOM.render(
-  <ErrorBoundary>
-    <App />
-  </ErrorBoundary>,
+  <App />,
   document.getElementById('root')
 );
