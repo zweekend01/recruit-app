@@ -2,12 +2,13 @@ import axios from 'axios';
 import { Toast } from 'antd-mobile';
 
 // 为axios全局配置一些默认值
+axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
 // 为axios设置拦截器
 axios.interceptors.request.use(null, () => Promise.reject(new Error('发起请求失败')));
 axios.interceptors.response.use((response) => {
   const { data: { code, msg }, status } = response;
-  if (code === '0') return response;
+  if (code === 'success') return response;
   return Promise.reject(new Error(`-${status}：${msg}`));
 }, (error) => {
   let message;
@@ -17,7 +18,7 @@ axios.interceptors.response.use((response) => {
   } else {
     message = `：${error.message}`;
   }
-  return Promise.reject(message);
+  return Promise.reject(new Error(message));
 });
 
 /**
@@ -83,9 +84,33 @@ export default class Http {
         })
         .catch((error) => {
           if (hideLoading) Toast.hide();
-          if (showError) Toast.fail(errorText);
+          if (showError) Toast.fail(`${errorText}${error.message}`);
           reject(error);
         });
     });
+  }
+
+  static post(config) {
+    return Http.request({ method: 'POST', ...config });
+  }
+
+  static get(config) {
+    return Http.request({ method: 'GET', ...config });
+  }
+
+  static head(config) {
+    return Http.request({ method: 'HEAD', ...config });
+  }
+
+  static put(config) {
+    return Http.request({ method: 'PUT', ...config });
+  }
+
+  static patch(config) {
+    return Http.request({ method: 'PATCH', ...config });
+  }
+
+  static delete(config) {
+    return Http.request({ method: 'DELETE', ...config });
   }
 }

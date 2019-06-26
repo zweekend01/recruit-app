@@ -338,7 +338,13 @@ module.exports = {
     axios
 ```
 
-配置 .babelrc 文件中与 antd-mobile 组件库相关的参数：
+> (1) 配置全局的样式
+
+解决 html 元素在各浏览器中兼容性的问题、实现基于 rem 的弹性布局
+
+> (2) 解决 antd-mobile 组件库按需加载以及样式打包的问题
+
+配置 .babelrc 和 webpack.config.client.js 如下：
 
 ```json
 {
@@ -354,10 +360,6 @@ module.exports = {
   ]
 }
 ```
-
-- 配置全局的样式
-
-解决 html 元素在各浏览器中兼容性的问题、实现基于 rem 的弹性布局、解决 antd-mobile 接入的一些第三方样式的冲突, 在webpack.config.client.js 中添加配置：
 
 ```javascript
 module.exports = {
@@ -387,7 +389,7 @@ module.exports = {
 }
 ```
 
-- 基于 axios 封装 http 请求
+> (3) 基于 axios 封装 http 请求
 
 请求 loading 的开启与关闭、请求成功的统一提示、请求失败的统一提示
 
@@ -459,7 +461,6 @@ module.exports = {
 
 ```cmd
   - server
-    - api
     - apidoc
     - bin
       - www.js
@@ -469,13 +470,92 @@ module.exports = {
     - models
     - public
     - routers
-    - sql
+    - sqls
     - utils
     - views
     - app.js
 ```
 
 #### 2.2.4 业务开发
+
+- 安装相关的 npm package, 如下所示：
+
+```cmd
+  $ npm i -S \
+    express \
+    morgan \
+    serve-favicon \
+    method-override \
+    cors \
+    multer \
+    body-parser \
+    http-proxy-middleware \
+    serve-static \
+    http-errors \
+    jsonwebtoken \
+    mysql \
+    ejs \
+```
+
+> (1) 配置第三方的通用中间件
+
+如 morgan、serve-favicon、method-override、cors、multer、body-parser
+
+> (2) 搭建异常处理的中间件
+
+```javascript
+/* catch 404 and forward to error handler */
+app.use((req, res, next) => {
+  next(createError(404))
+})
+
+/* error handler */
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  // res.locals.message = err.message
+  // res.locals.error = req.app.get('env') === 'development' ? err : {}
+
+  // render the error page
+  res.status(err.status || 500)
+  if (err.message instanceof Object) {
+    res.json(err.message)
+  } else {
+    res.end()
+  }
+  // res.render('error')
+})
+```
+
+> (3) 搭建静态资源的路由中间件
+
+```javascript
+/* use Static router middlewares */
+if (isDev) {
+  app.use('/public', httpProxy({ target: 'http://localhost:8888' }))
+} else {
+  app.use('/public', serveStatic(path.join(__dirname, 'public')))
+}
+```
+
+> (4) 搭建 restify、jwtAuth 中间件
+
+> (5) 配置 view 和 model 的相关参数
+
+```javascript
+/* mysql connect */
+const { HOST, PORT, USER, PASSWORD, DATABASE } = mysqlConfig
+app.set('mysql', mysql.createConnection({
+  host: HOST,
+  port: PORT,
+  user: USER,
+  password: PASSWORD,
+  database: DATABASE
+}))
+
+/* view engine setup */
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+```
 
 #### 2.2.5 性能优化
 
