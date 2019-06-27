@@ -22,7 +22,7 @@ class App extends Component {
     console.log('fetch');
     const [err, data] = await to(Http.request({
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/users/register',
+      url: '/users/register',
       data: {}
     }));
     if (err) return;
