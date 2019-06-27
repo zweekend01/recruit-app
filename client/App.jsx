@@ -19,13 +19,15 @@ class App extends Component {
   }
 
   onFetchData = async () => {
-    console.log('fetch');
     const [err, data] = await to(Http.request({
       method: 'POST',
       url: '/users/register',
-      data: {}
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: {
+        name: 'hlod'
+      }
     }));
-    if (err) return;
+    if (err) console.log(err);
     console.log(data);
   }
 
@@ -36,7 +38,7 @@ class App extends Component {
       <StrictMode>
         <div>
           Hello wrold{name}
-          <Button type="primary" size="large" onClick={this.onFetchData}>Primary</Button>
+          <Button type="primary" size="large" onClick={this.onFetchData}>sPdl</Button>
         </div>
       </StrictMode>
     );

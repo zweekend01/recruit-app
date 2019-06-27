@@ -9,7 +9,7 @@ exports.CREATE_TABLE = `
     PRIMARY KEY (id),
     UNIQUE INDEX uni_name (name),
     UNIQUE INDEX uni_tel (tel)
-  );
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 `;
 
 // 插入一条用户记录

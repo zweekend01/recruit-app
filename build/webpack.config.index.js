@@ -15,7 +15,10 @@ if (isDev) {
     publicPath: '/public',
     historyApiFallback: { index: '/public/index.html' },
     overlay: { errors: true },
-    hot: true
+    hot: true,
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
   };
 } else {
 }

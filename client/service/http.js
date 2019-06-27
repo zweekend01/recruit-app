@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Toast } from 'antd-mobile';
 
 // 为axios全局配置一些默认值
-axios.defaults.baseURL = 'http://localhost:3000/api/v1';
+axios.defaults.baseURL = 'http://localhost:8888/api/v1';
 
 // 为axios设置拦截器
 axios.interceptors.request.use(null, () => Promise.reject(new Error('发起请求失败')));
@@ -70,16 +70,15 @@ export default class Http {
   } = {}) {
     return new Promise((resolve, reject) => {
       const requestConfig = { ...config };
-      if (needToken) {
-        requestConfig.url += config.url.indexOf('?') === -1 ? '?' : '&';
-        requestConfig.url += `token=${localStorage.getItem('token')}`;
-      }
+      if (needToken) requestConfig.auth = localStorage.getItem('token');
       if (showLoading) Toast.loading(loadingText, 0);
 
       axios(requestConfig)
         .then((response) => {
           if (hideLoading) Toast.hide();
           if (showSuccess) Toast.success(successText);
+          // 如果 data 中有 token，则存入缓存中
+          if (response.data.data.token) localStorage.setItem('token', response.data.data.token);
           resolve(response.data.data);
         })
         .catch((error) => {
@@ -91,26 +90,26 @@ export default class Http {
   }
 
   static post(config) {
-    return Http.request({ method: 'POST', ...config });
+    return this.request({ method: 'POST', ...config });
   }
 
   static get(config) {
-    return Http.request({ method: 'GET', ...config });
+    return this.request({ method: 'GET', ...config });
   }
 
   static head(config) {
-    return Http.request({ method: 'HEAD', ...config });
+    return this.request({ method: 'HEAD', ...config });
   }
 
   static put(config) {
-    return Http.request({ method: 'PUT', ...config });
+    return this.request({ method: 'PUT', ...config });
   }
 
   static patch(config) {
-    return Http.request({ method: 'PATCH', ...config });
+    return this.request({ method: 'PATCH', ...config });
   }
 
   static delete(config) {
-    return Http.request({ method: 'DELETE', ...config });
+    return this.request({ method: 'DELETE', ...config });
   }
 }

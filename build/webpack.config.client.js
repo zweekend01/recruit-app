@@ -6,7 +6,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      '@': path.join(__dirname, '../client')
+      '@': path.join(__dirname, '../client'),
+      'react-dom': '@hot-loader/react-dom'
     }
   },
   entry: {

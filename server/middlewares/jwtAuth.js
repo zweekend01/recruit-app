@@ -30,7 +30,10 @@ module.exports = function({ secret }) {
       const cur = +new Date();
       const remaining = exp - cur / 1000;
       const wait = 5 * 24 * 60 * 60;
-      if (remaining < wait) res.exp = cur / 1000 + 30 * 24 * 60 * 60;
+      if (remaining < wait) {
+        const refreshToken = jwt.sign({ uid, exp: cur / 1000 + 30 * 24 * 60 * 60 }, secret);
+        res.set('Authorization', 'Bearer ' + refreshToken);
+      };
 
       // 从数据库查询出用户的信息
       const userModel = new UserModel(req.app.get('mysql'));

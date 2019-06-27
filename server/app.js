@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const logger = require('morgan');
 const favicon = require('serve-favicon');
 const methodOverride = require('method-override');
-// const cors = require('cors');
+const cors = require('cors');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const httpProxy = require('http-proxy-middleware');
@@ -39,10 +39,10 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(restify());
 app.use(jwtAuth({ secret: JWT_SECRET }).unless({ path: JWT_AUTH_UNLESS_PATH }));
 app.use(methodOverride());
-// app.use(cors({
-//   credentials: true,
-//   origin: 'http://localhost:8888'
-// }));
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:8888'
+}));
 app.use(multer().any());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({
 
 /* use Static router middlewares */
 if (isDev) {
-  app.use('/public', httpProxy({ target: 'http://localhost' }));
+  app.use('/public', httpProxy({ target: 'http://localhost:8888' }));
 } else {
   app.use('/public', serveStatic(path.join(__dirname, 'public')));
 }
