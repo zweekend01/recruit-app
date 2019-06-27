@@ -1,9 +1,6 @@
 import { hot } from 'react-hot-loader/root';
 import React, { Component, StrictMode } from 'react';
 import { Button } from 'antd-mobile';
-import { to } from 'await-to-js';
-
-import Http from './service/http';
 
 class App extends Component {
   constructor() {
@@ -19,16 +16,7 @@ class App extends Component {
   }
 
   onFetchData = async () => {
-    const [err, data] = await to(Http.request({
-      method: 'POST',
-      url: '/users/register',
-      headers: { 'Content-Type': 'multipart/form-data' },
-      data: {
-        name: 'hlod'
-      }
-    }));
-    if (err) console.log(err);
-    console.log(data);
+    console.log('asdas');
   }
 
   render() {
@@ -38,7 +26,7 @@ class App extends Component {
       <StrictMode>
         <div>
           Hello wrold{name}
-          <Button type="primary" size="large" onClick={this.onFetchData}>sPdl</Button>
+          <Button type="primary" size="large" onClick={this.onFetchData}>sPl</Button>
         </div>
       </StrictMode>
     );

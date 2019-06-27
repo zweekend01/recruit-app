@@ -3,6 +3,7 @@ import { Toast } from 'antd-mobile';
 
 // 为axios全局配置一些默认值
 axios.defaults.baseURL = 'http://localhost:8888/api/v1';
+axios.defaults.headers = { 'Content-Type': 'application/json' };
 
 // 为axios设置拦截器
 axios.interceptors.request.use(null, () => Promise.reject(new Error('发起请求失败')));
