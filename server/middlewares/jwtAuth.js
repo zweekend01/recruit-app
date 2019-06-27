@@ -15,7 +15,7 @@ module.exports = function({ secret }) {
     if (unlessPath.some(item => item.test(req.path))) return next();
 
     // 获取token
-    const token = req.get('Authorization').slice(7);
+    const token = req.get('Authorization');
 
     // token不存在
     if (!token) return next(createError(401));
@@ -24,7 +24,7 @@ module.exports = function({ secret }) {
       // options
       // algorithms、audience、complete、issuer、ignoreExpiration
       // ignoreNotBefore、subject、clockTolerance、maxAge、clockTimestamp、nonce
-      const { exp, uid } = jwt.verify(token, secret);
+      const { exp, uid } = jwt.verify(token.slice(7), secret);
 
       // 检测是否需要刷新token
       const cur = +new Date();

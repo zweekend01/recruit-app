@@ -12,7 +12,7 @@ exports.CREATE_TABLE = `
   );
 `;
 
-// 插入一条用户数据
+// 插入一条用户记录
 exports.INSERT = `
   INSERT INTO users (name, password, tel, address, email) VALUES (?, ?, ?, ?, ?);
 `;
@@ -20,4 +20,9 @@ exports.INSERT = `
 // 依据 id 查询用户数据
 exports.SELECT_BY_ID = `
   SELECT * FROM users WHERE id = ?;
+`;
+
+// 依据 name 查询用户数据
+exports.SELECT_BY_NAME = `
+  SELECT * FROM users WHERE name = ?;
 `;
