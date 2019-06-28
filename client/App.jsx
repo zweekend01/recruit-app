@@ -1,36 +1,16 @@
 import { hot } from 'react-hot-loader/root';
-import React, { Component, StrictMode } from 'react';
-import { Button } from 'antd-mobile';
+import React, { StrictMode } from 'react';
+import { Provider } from 'react-redux';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: 'aPP'
-    };
-    this.onFetchData = this.onFetchData.bind(this);
-  }
+import store from './store';
+import Router from './Router';
 
-  componentDidMount() {
-
-  }
-
-  onFetchData = async () => {
-    console.log('asdas');
-  }
-
-  render() {
-    const { name } = this.state;
-
-    return (
-      <StrictMode>
-        <div>
-          Hello wrold{name}
-          <Button type="primary" size="large" onClick={this.onFetchData}>sPl</Button>
-        </div>
-      </StrictMode>
-    );
-  }
-}
+const App = () => (
+  <StrictMode>
+    <Provider store={store}>
+      <Router />
+    </Provider>
+  </StrictMode>
+);
 
 export default hot(App);

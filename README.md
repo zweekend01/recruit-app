@@ -130,6 +130,9 @@ eslint 是 ecmascript 编程格式的校验工具，有助于团队的编程格�
     @babel/core \
     @babel/preset-env \
     @babel/preset-react \
+    @babel/plugin-proposal-decorators \
+    @babel/plugin-proposal-class-properties \
+    @bable/plugin-transform-runtime \
     raw-loader \
     url-loader \
     style-loader \
@@ -266,7 +269,12 @@ module.exports = clientConfig;
 // .babelrc
 {
   "presets": [["@babel/preset-env", { "loose": true }], "@babel/preset-react"],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", {"loose": true }],
+    "@babel/plugin-transform-runtime"
+    "react-hot-loader/babel",
+  ]
 }
 ```
 
@@ -305,20 +313,25 @@ module.exports = {
 
 ```cmd
   - client
+    - action-types  => 动作类型
+    - actions       => 动作
     - assets        => 静态资源
     - components    => 项目的通用组件，包括布局组件和高阶组件等
       - hoc
       - layout
     - config        => 项目的一些配置
     - pages         => 页面组件
-    - routes        => 路由组件
-    - stores        => 状态管理
+    - reducers      => 改变store
+    - selectors     => 选取store中的数据
+    - services      => http请求
     - styles        => 项目通用的样式，以及全局的样式兼容性设置
     - utils         => 工具库
     - App.jsx
     - App.less
     - index.html
     - index.js
+    - Router.jsx
+    - store.js      => 状态管理
 ```
 
 #### 2.1.4 业务开发
@@ -328,14 +341,20 @@ module.exports = {
 ```cmd
   $ npm i -S \
     react \
+    @hot-loader/react-dom \
     react-dom \
     react-css-modules \
     prop-types \
     antd-mobile \
     babel-plugin-import \
-    @babel/plugin-proposal-class-properties \
-    @bable/plugin-transform-runtime \
-    axios
+    axios \
+    react-router-dom \
+    redux \
+    redux-thunk \
+    react-redux \
+    await-to-js \
+    joi-browser \
+    reselect \
 ```
 
 > (1) 配置全局的样式
