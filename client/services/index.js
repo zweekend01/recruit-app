@@ -1,1 +1,1 @@
-// export { UserService } from './user';
+export { default as UserService } from './user'; // eslint-disable-line

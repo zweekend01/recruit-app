@@ -10,13 +10,11 @@ class UserModel {
    * @param {Object} user
    * @param {string} user.name
    * @param {string} user.password
-   * @param {string} user.tel
-   * @param {string} [user.address]
-   * @param {string} [user.email]
+   * @param {string} user.type
    * @param {Function} cb
    */
-  insert({ name, password, tel, address = '', email = '' }, cb) {
-    const values = [name, password, tel, address, email];
+  insert({ name, password, type }, cb) {
+    const values = [name, password, type];
     this.db.query(userSql.INSERT, values, (err, results) => {
       if (err) return cb(err);
       return cb(null, results);

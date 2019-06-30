@@ -1,20 +1,19 @@
 exports.CREATE_TABLE = `
-  CREATE TABLE IF NOT EXISTS user (
+  CREATE TABLE IF NOT EXISTS users (
     id          BIGINT          NOT NULL  AUTO_INCREMENT,
     name        VARCHAR(16)     NOT NULL,
     password    VARCHAR(100)    NOT NULL,
-    tel         CHAR(11)        NOT NULL,
-    address     VARCHAR(256)    ,
-    email       VARCHAR(64)     ,
+    type        VARCHAR(10)     NOT NULL,
+    avatar      BLOB,
+    desc        VARCHAR(250),
     PRIMARY KEY (id),
-    UNIQUE INDEX uni_name (name),
-    UNIQUE INDEX uni_tel (tel)
+    UNIQUE INDEX uni_name (name)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 `;
 
 // 插入一条用户记录
 exports.INSERT = `
-  INSERT INTO users (name, password, tel, address, email) VALUES (?, ?, ?, ?, ?);
+  INSERT INTO users (name, password, type) VALUES (?, ?, ?);
 `;
 
 // 依据 id 查询用户数据

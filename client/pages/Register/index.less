@@ -1,0 +1,31 @@
+@import '../../styles/themes/index';
+@import '../../styles/mixins/index';
+
+.radio-list {
+  flex-grow: 1;
+  margin-left: 20px;
+  &-item {
+    .square(120);
+    border: 1px solid @border-color;
+    border-radius: 50%;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    .rli {
+      &-core {
+        .square(80);
+        border-radius: 50%;
+        background-color: @primary-color;
+      }
+      &-label {
+        position: absolute;
+        top: 50%;
+        right: -40px;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+

@@ -1,4 +1,5 @@
-// export { default } from './user'; // eslint-disable-line
 import userReducer from './user';
 
-export default userReducer;
+export {
+  userReducer // eslint-disable-line
+};

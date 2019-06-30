@@ -13,8 +13,7 @@ const {
 
 class UserController extends Controller {
   static register(req, res, next) {
-    let { name, password, tel, address, email } = req.validated;
-
+    let { name, password, type } = req.validated;
     // 查询用户名是否已存在
     const userModel = new UserModel(req.app.get('mysql'));
     userModel.selectByName(name, (err, results) => {
@@ -22,16 +21,15 @@ class UserController extends Controller {
       if (results[0] && results[0].id) return res.restError(ERROR_USER_EXISTED, next);
 
       // 将密码加密
-      password = this.getHamcPassword(password);
+      password = UserController.getHamcPassword(password);
 
       // 插入一条用户记录
-      userModel.insert({ name, password, tel, address, email }, (err, results) => {
+      userModel.insert({ name, password, type }, (err, results) => {
         if (err) return next(createError(500));
 
         // 将 token 放在 Authorization 响应头中
-        res.set('Authorization', 'Bearer ' + this.getToken(results[0].id));
-        delete results[0].password;
-        res.restData({ ...results[0] }, 'Register success');
+        res.set('Authorization', 'Bearer ' + UserController.getToken(results.insertId));
+        res.restData({ name, type, id: results.insertId }, 'Register success');
       });
     });
   }
@@ -48,11 +46,11 @@ class UserController extends Controller {
       if (!results[0]) return res.restError(ERROR_USER_NOT_EXISTED, next);
 
       // 检测密码是否正确
-      password = this.getHamcPassword(password);
+      password = UserController.getHamcPassword(password);
       if (password !== results[0].password) return res.restError(ERROR_USER_PWD_INCORRECT, next);
 
       // 将 token 放在 Authorization 响应头中
-      res.set('Authorization', 'Bearer ' + this.getToken(results[0].id));
+      res.set('Authorization', 'Bearer ' + UserController.getToken(results[0].id));
       delete results[0].password;
       res.restData({ ...results[0] }, 'Login success');
     });

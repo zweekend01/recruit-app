@@ -1,8 +1,9 @@
 import axios from 'axios';
+import Joi from 'joi-browser';
 import { Toast } from 'antd-mobile';
 
 // 为axios全局配置一些默认值
-axios.defaults.baseURL = 'http://localhost:8888/api/v1';
+axios.defaults.baseURL = 'http://localhost:8888/api';
 axios.defaults.headers = { 'Content-Type': 'application/json' };
 
 // 为axios设置拦截器
@@ -10,11 +11,17 @@ axios.interceptors.request.use(null, () => Promise.reject(new Error('发起请�
 axios.interceptors.response.use((response) => {
   const { data: { code, msg }, status } = response;
   if (code === 'success') return response;
+  // 如果是 token 有问题，直接跳转至登录页
+  if (code === 'user:logon_expires' || code === 'user:token_invalid') {
+    window.history.pushState({ foo: 'bar' }, '/login');
+  }
   return Promise.reject(new Error(`-${status}：${msg}`));
 }, (error) => {
   let message;
   if (error.response || error.request) {
     const { status, statusText } = error.response || error.request;
+    // 如果未授权，直接跳转至登录页
+    if (statusText === 'Unauthorized') window.history.pushState({}, '/login');
     message = `-${status}：${statusText}`;
   } else {
     message = `：${error.message}`;
@@ -79,7 +86,7 @@ export default class Http {
           if (hideLoading) Toast.hide();
           if (showSuccess) Toast.success(successText);
           // 如果 data 中有 token，则存入缓存中
-          if (response.data.data.token) localStorage.setItem('token', response.data.data.token);
+          if (response.headers.authorization) localStorage.setItem('token', response.headers.authorization);
           resolve(response.data.data);
         })
         .catch((error) => {
@@ -112,5 +119,17 @@ export default class Http {
 
   static delete(config) {
     return this.request({ method: 'DELETE', ...config });
+  }
+
+  static validate(val, schema) {
+    const { error, value } = Joi.validate(val, schema);
+
+    if (error) {
+      let msg = error.details ? error.details[0].message : error.message;
+      msg = msg.replace(/"/g, '');
+      Toast.fail(msg);
+      throw new Error(msg);
+    }
+    return value;
   }
 }

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
+import store from './store';
 import App from './App';
 import './styles/index.less';
 
@@ -22,6 +24,10 @@ import './styles/index.less';
 // 统一的上报错误，并给予提示
 
 ReactDOM.render(
-  <App />,
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>,
   document.getElementById('root')
 );
