@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   Flex, WingBlank, WhiteSpace, List, InputItem, Button
 } from 'antd-mobile';
+import queryString from 'query-string';
 
 import { Logo } from '../../components';
 import styles from './index.less';
@@ -16,7 +17,7 @@ const types = [
 ];
 const mapDispatchToProps = dispatch => ({
   register: (param) => {
-    dispatch(UserActionCreator.asyncRegister(param));
+    dispatch(UserActionCreator.registerAsync(param));
   }
 });
 
@@ -24,7 +25,9 @@ const mapDispatchToProps = dispatch => ({
 @CSSModules(styles)
 class Register extends Component {
   static propTypes = {
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   state = {
@@ -42,9 +45,14 @@ class Register extends Component {
     this.setState({ type });
   }
 
-  onRegister = () => {
-    const { register } = this.props;
-    register({ ...this.state });
+  onRegister = async () => {
+    const { register, location: { search }, history } = this.props;
+    await register({ ...this.state });
+
+    const { from } = queryString.parse(search);
+    if (from) {
+      history.push(from);
+    }
   }
 
   render() {

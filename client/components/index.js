@@ -1,1 +1,2 @@
-export { default as Logo } from './Logo'; // eslint-disable-line
+export { default as AuthRouter } from './AuthRouter';
+export { default as Logo } from './Logo';

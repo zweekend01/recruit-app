@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { WingBlank, WhiteSpace, Button } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
 
@@ -8,14 +8,19 @@ import { REGISTER_ROUTER, LOGIN_ROUTER } from '../../config/router';
 import styles from './index.less';
 
 class Home extends Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
+  };
+
   onLogin = () => {
-    const { history } = this.props; // eslint-disable-line
-    history.push(LOGIN_ROUTER); // eslint-disable-line
+    const { history, location: { search } } = this.props;
+    history.push(LOGIN_ROUTER + search);
   }
 
   onRegister = () => {
-    const { history } = this.props; // eslint-disable-line
-    history.push(REGISTER_ROUTER); // eslint-disable-line
+    const { history, location: { search } } = this.props;
+    history.push(REGISTER_ROUTER + search);
   }
 
   render() {
@@ -23,7 +28,7 @@ class Home extends Component {
       <div className="layout">
         <WingBlank>
           {/* content */}
-          <div styleName="content" onClick={this.onLogin}>
+          <div styleName="content">
             <WhiteSpace size="xl" />
             <WhiteSpace size="xl" />
             <Logo />

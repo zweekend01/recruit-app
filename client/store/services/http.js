@@ -2,6 +2,9 @@ import axios from 'axios';
 import Joi from 'joi-browser';
 import { Toast } from 'antd-mobile';
 
+// token 无效时，跳转至登录页面的路径
+const getPathname = () => `/login?from=${decodeURIComponent(window.location.pathname)}`;
+
 // 为axios全局配置一些默认值
 axios.defaults.baseURL = 'http://localhost:8888/api';
 axios.defaults.headers = { 'Content-Type': 'application/json' };
@@ -12,16 +15,14 @@ axios.interceptors.response.use((response) => {
   const { data: { code, msg }, status } = response;
   if (code === 'success') return response;
   // 如果是 token 有问题，直接跳转至登录页
-  if (code === 'user:logon_expires' || code === 'user:token_invalid') {
-    window.history.pushState({ foo: 'bar' }, '/login');
-  }
+  if (code === 'user:token_invalid') window.location.href = getPathname();
   return Promise.reject(new Error(`-${status}：${msg}`));
 }, (error) => {
   let message;
   if (error.response || error.request) {
     const { status, statusText } = error.response || error.request;
     // 如果未授权，直接跳转至登录页
-    if (statusText === 'Unauthorized') window.history.pushState({}, '/login');
+    if (statusText === 'Unauthorized') window.location.href = getPathname();
     message = `-${status}：${statusText}`;
   } else {
     message = `：${error.message}`;

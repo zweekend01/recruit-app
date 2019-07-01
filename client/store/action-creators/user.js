@@ -11,7 +11,7 @@ const {
 } = userActionType;
 
 export default class UserActionCreator {
-  static initUserState() {
+  static initializeSync() {
     const token = localStorage.getItem('token');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const action = token && userInfo
@@ -20,7 +20,7 @@ export default class UserActionCreator {
     return action;
   }
 
-  static asyncRegister({
+  static registerAsync({
     name, password, repeatPwd, type
   }) {
     if (password !== repeatPwd) {
@@ -34,14 +34,11 @@ export default class UserActionCreator {
       // 将用户信息存入缓存
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       // dispatch action
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: userInfo
-      });
+      dispatch({ type: REGISTER_SUCCESS, payload: userInfo });
     };
   }
 
-  static asyncLogin({ name, password }) {
+  static loginAsync({ name, password }) {
     return async (dispatch) => {
       const [err, userInfo] = await to(UserService.login(name, password));
       if (err) return;
@@ -49,10 +46,7 @@ export default class UserActionCreator {
       // 将用户信息存入缓存
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       // dispacth action
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: userInfo
-      });
+      dispatch({ type: LOGIN_SUCCESS, payload: userInfo });
     };
   }
 }

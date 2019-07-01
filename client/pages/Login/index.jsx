@@ -4,20 +4,23 @@ import { connect } from 'react-redux';
 import {
   WingBlank, WhiteSpace, List, InputItem, Button
 } from 'antd-mobile';
+import queryString from 'query-string';
 
 import { Logo } from '../../components';
 import { UserActionCreator } from '../../store/action-creators';
 
 const mapDispatchToProps = dispatch => ({
   login: (param) => {
-    dispatch(UserActionCreator.asyncLogin(param));
+    dispatch(UserActionCreator.loginAsync(param));
   }
 });
 
 @connect(null, mapDispatchToProps)
 class Login extends Component {
   static propTypes = {
-    login: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   state = {
@@ -29,9 +32,14 @@ class Login extends Component {
     this.setState({ [field]: val });
   }
 
-  onLogin = () => {
-    const { login } = this.props;
-    login(this.state);
+  onLogin = async () => {
+    const { login, location: { search }, history } = this.props;
+    await login(this.state);
+
+    const { from } = queryString.parse(search);
+    if (from) {
+      history.push(from);
+    }
   }
 
   render() {

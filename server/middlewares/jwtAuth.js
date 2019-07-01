@@ -1,10 +1,6 @@
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
-const {
-  ERROR_USER_LOGON_NOT_ACTIVE,
-  ERROR_USER_LOGON_EXPIRES,
-  ERROR_USER_TOKEN_INVALID
-} = require('../config/error');
+const { ERROR_USER_TOKEN_INVALID } = require('../config/error');
 const { UserModel } = require('../models');
 
 module.exports = function({ secret }) {
@@ -44,18 +40,7 @@ module.exports = function({ secret }) {
       });
     } catch (err) {
       // token存在，但验证不正确
-      let error;
-      switch (err.name) {
-        case 'NotBeforeError':
-          error = ERROR_USER_LOGON_NOT_ACTIVE;
-          break
-        case 'TokenExpiredError':
-          error = ERROR_USER_LOGON_EXPIRES;
-          break
-        default:
-          error = ERROR_USER_TOKEN_INVALID;
-      }
-      if (error) return res.restError(error, next);
+      return res.restError(ERROR_USER_TOKEN_INVALID, next);
     }
   };
 

@@ -8,11 +8,10 @@ import { UserActionCreator } from './store/action-creators';
 
 const mapStateToProps = ({ userState }) => ({
   hasInit: userState.hasInit,
-  isLogin: userState.isLogin
 });
 const mapDispatchToProps = dispatch => ({
-  initUserState: () => {
-    dispatch(UserActionCreator.initUserState());
+  initialize: () => {
+    dispatch(UserActionCreator.initializeSync());
   }
 });
 
@@ -20,18 +19,17 @@ const mapDispatchToProps = dispatch => ({
 class App extends Component {
   static propTypes = {
     hasInit: PropTypes.bool.isRequired,
-    isLogin: PropTypes.bool.isRequired,
-    initUserState: PropTypes.func.isRequired
+    initialize: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    const { initUserState } = this.props;
-    initUserState();
+    const { initialize } = this.props;
+    initialize();
   }
 
   render() {
-    const { hasInit, isLogin } = this.props;
-    return hasInit ? <Router isLogin={isLogin} /> : null;
+    const { hasInit } = this.props;
+    return hasInit ? <Router /> : null;
   }
 }
 

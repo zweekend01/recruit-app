@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
-  BrowserRouter, Switch, Route, Redirect
+  BrowserRouter, Switch, Route
 } from 'react-router-dom';
+
+import { AuthRouter } from './components';
 import { Home, Register, Login } from './pages';
 
 import Http from './store/services/http';
@@ -17,20 +18,17 @@ function Test() {
 }
 
 
-const Router = ({ isLogin }) => (
+const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
-      {!isLogin && <Redirect to="/" />}
-      <Route path="/test" component={Test} />
+      <AuthRouter>
+        <Route path="/test" component={Test} />
+      </AuthRouter>
     </Switch>
   </BrowserRouter>
 );
-
-Router.propTypes = {
-  isLogin: PropTypes.bool.isRequired
-};
 
 export default Router;

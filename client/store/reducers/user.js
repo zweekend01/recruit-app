@@ -2,7 +2,7 @@ import { userActionType } from '../action-types';
 
 const initState = {
   hasInit: false,
-  isLogin: false,
+  isAuth: false,
   name: '',
   avatar: '',
   description: ''
@@ -18,13 +18,13 @@ export default function userReducer(userState = initState, action) {
   switch (action.type) {
     case INIT_SUCCESS:
       return {
-        ...userState, hasInit: true, isLogin: true, ...action.payload
+        ...userState, hasInit: true, isAuth: true, ...action.payload
       };
     case INIT_FAIL:
       return { ...userState, ...initState, hasInit: true };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      return { ...userState, isLogin: true, ...action.payload };
+      return { ...userState, isAuth: true, ...action.payload };
     default:
       return { ...userState };
   }

@@ -4,16 +4,6 @@ exports.ERROR_USER_EXISTED = {
   data: null,
   msg: 'User existed'
 };
-exports.ERROR_USER_LOGON_NOT_ACTIVE = {
-  code: 'user:logon_not_active',
-  data: null,
-  msg: 'User logon not active'
-};
-exports.ERROR_USER_LOGON_EXPIRES = {
-  code: 'user:logon_expires',
-  data: null,
-  msg: 'User logon expires'
-};
 exports.ERROR_USER_TOKEN_INVALID = {
   code: 'user:token_invalid',
   data: null,
