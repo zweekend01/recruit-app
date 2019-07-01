@@ -10,12 +10,12 @@ import styles from './index.less';
 class Home extends Component {
   onLogin = () => {
     const { history } = this.props; // eslint-disable-line
-    history.push(LOGIN_ROUTER);
+    history.push(LOGIN_ROUTER); // eslint-disable-line
   }
 
   onRegister = () => {
     const { history } = this.props; // eslint-disable-line
-    history.push(REGISTER_ROUTER);
+    history.push(REGISTER_ROUTER); // eslint-disable-line
   }
 
   render() {
@@ -23,7 +23,7 @@ class Home extends Component {
       <div className="layout">
         <WingBlank>
           {/* content */}
-          <div styleName="content">
+          <div styleName="content" onClick={this.onLogin}>
             <WhiteSpace size="xl" />
             <WhiteSpace size="xl" />
             <Logo />

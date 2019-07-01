@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { Home, Register, Login } from './pages';
 
-import Http from './services/http';
+import Http from './store/services/http';
 
 function onClick() {
   Http.request({

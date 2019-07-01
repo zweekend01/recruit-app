@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Router from './Router';
-import { UserActionCreator } from './action-creators';
+import { UserActionCreator } from './store/action-creators';
 
 const mapStateToProps = ({ userState }) => ({
   hasInit: userState.hasInit,

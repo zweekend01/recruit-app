@@ -8,7 +8,7 @@ import {
 
 import { Logo } from '../../components';
 import styles from './index.less';
-import { UserActionCreator } from '../../action-creators';
+import { UserActionCreator } from '../../store/action-creators';
 
 const types = [
   { key: 'genius', label: '牛人' },

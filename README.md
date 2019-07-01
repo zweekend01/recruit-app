@@ -313,25 +313,26 @@ module.exports = {
 
 ```cmd
   - client
-    - action-creators   => 动作制造器
-    - action-types      => 动作类型
-    - assets            => 静态资源
-    - components        => 项目的通用组件，包括布局组件和高阶组件等
+    - assets                => 静态资源
+    - components            => 项目的通用组件，包括布局组件和高阶组件等
       - hoc
       - layout
-    - config            => 项目的一些配置
-    - pages             => 页面组件
-    - reducers          => 改变store
-    - selectors         => 选取store中的数据
-    - services          => http请求
-    - styles            => 项目通用的样式，以及全局的样式兼容性设置
-    - utils             => 工具库
+    - config                => 项目的一些配置
+    - pages                 => 页面组件
+    - store                 => 状态管理
+      - action-creators     => 动作创建
+      - action-types        => 动作类型
+      - reducers            => 改变 store
+      - selectors           => 选取 store 中的数据
+      - services            => 创建 http 请求
+      - index.js
+    - styles                => 项目通用的样式，以及全局的样式兼容性设置
+    - utils                 => 工具库
     - App.jsx
     - App.less
     - index.html
     - index.js
     - Router.jsx
-    - store.js          => 状态管理
 ```
 
 #### 2.1.4 业务开发

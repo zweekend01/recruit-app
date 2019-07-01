@@ -6,7 +6,7 @@ import {
 } from 'antd-mobile';
 
 import { Logo } from '../../components';
-import { UserActionCreator } from '../../action-creators';
+import { UserActionCreator } from '../../store/action-creators';
 
 const mapDispatchToProps = dispatch => ({
   login: (param) => {
