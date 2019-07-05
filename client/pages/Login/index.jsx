@@ -7,7 +7,7 @@ import {
 import queryString from 'query-string';
 
 import { Logo } from '../../components';
-import { UserActionCreator } from '../../store/action-creators';
+import { UserActionCreator } from '../../store/user';
 
 const mapDispatchToProps = dispatch => ({
   login: (param) => {

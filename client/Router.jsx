@@ -6,7 +6,7 @@ import {
 import { AuthRouter } from './components';
 import { Home, Register, Login } from './pages';
 
-import Http from './store/services/http';
+import Http from './services/http';
 
 function onClick() {
   Http.request({

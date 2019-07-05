@@ -1,16 +1,14 @@
 import { Toast } from 'antd-mobile';
 import to from 'await-to-js';
-import { UserService } from '../services';
-import { userActionType } from '../action-types';
-
-const {
+import { UserService } from '../../services';
+import {
   INIT_SUCCESS,
   INIT_FAIL,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS
-} = userActionType;
+} from './action-type';
 
-export default class UserActionCreator {
+export default class {
   static initializeSync() {
     const token = localStorage.getItem('token');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
