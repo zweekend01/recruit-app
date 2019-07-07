@@ -6,8 +6,7 @@ import {
   INIT_FAIL,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
-  UPDATE_SUCCESS,
-  LOGOUT
+  UPDATE_SUCCESS
 } from './action-type';
 
 export default class {
@@ -28,7 +27,7 @@ export default class {
       throw new Error();
     }
     return async (dispatch) => {
-      const [err, userInfo] = await to(UserService.register(name, password, type));
+      const [err, userInfo] = await to(UserService.postUserRegister(name, password, type));
       if (err) return;
 
       // 将用户信息存入缓存
@@ -40,7 +39,7 @@ export default class {
 
   static loginAsync({ name, password }) {
     return async (dispatch) => {
-      const [err, userInfo] = await to(UserService.login(name, password));
+      const [err, userInfo] = await to(UserService.postUserLogin(name, password));
       if (err) return;
 
       // 将用户信息存入缓存
@@ -53,16 +52,16 @@ export default class {
   static perfectInfoAsync({
     avatar, company, position, salary, desc, type
   }) {
+    console.log('perfect');
     return async (dispatch) => {
-      const [err] = type === 'boss'
-        ? await to(UserService.updateBoss({
-          avatar, company, position, salary, desc
-        }))
-        : await to(UserService.updateGenius({
-          avatar, position, salary, desc
-        }));
+      const [err] = await to(UserService.putUser(avatar, company, position, salary, desc, type));
       if (err) return;
 
+      // 将用户信息存入缓存
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      localStorage.setItem('userInfo', {
+        ...userInfo, avatar, company, position, salary, desc
+      });
       // dispatch action
       dispatch({
         type: UPDATE_SUCCESS,
@@ -71,12 +70,5 @@ export default class {
         }
       });
     };
-  }
-
-  static logoutSync() {
-    // 清楚缓存
-    localStorage.removeItem('token');
-    localStorage.removeItem('userInfo');
-    return { type: LOGOUT };
   }
 }

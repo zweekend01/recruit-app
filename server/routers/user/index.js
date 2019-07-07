@@ -1,19 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-const schema = require('./schema');
+const userSchema = require('./schema');
 const { UserController } = require('../../controllers');
-const PREFIX = '/v1/user';
+const USER_BASE = '/v1/user';
 
 router.post(
-  `${PREFIX}/register`,
-  UserController.validate(schema.register),
-  UserController.register
+  `${USER_BASE}/register`,
+  UserController.validate(userSchema.POST_USER_REGISTER),
+  UserController.postUserRegister
 );
 router.post(
-  `${PREFIX}/login`,
-  UserController.validate(schema.login),
-  UserController.login
+  `${USER_BASE}/login`,
+  UserController.validate(userSchema.POST_USER_LOGIN),
+  UserController.postUserLogin
 );
+router.route(USER_BASE)
+  .put(UserController.putUser)
 
 module.exports = router;

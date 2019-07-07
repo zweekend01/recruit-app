@@ -12,7 +12,7 @@ const {
 } = require('../config/error');
 
 class UserController extends Controller {
-  static register(req, res, next) {
+  static postUserRegister(req, res, next) {
     let { name, password, type } = req.validated;
     // 查询用户名是否已存在
     const userModel = new UserModel(req.app.get('mysql'));
@@ -34,7 +34,7 @@ class UserController extends Controller {
     });
   }
 
-  static login(req, res, next) {
+  static postUserLogin(req, res, next) {
     let { name, password } = req.validated;
 
     // 查询用户是否存在
@@ -64,6 +64,15 @@ class UserController extends Controller {
 
   static getToken(uid) {
     return jwt.sign({ uid, exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 }, JWT_SECRET);
+  }
+
+  static putUser(req, res, next) {
+    const userModel = new UserModel(req.app.get('mysql'));
+    const { id } = req.user;
+    userModel.update({ ...req.validated, id }, (err, results) => {
+      if (err) return next(createError(500));
+      res.restData(null, 'Update success');
+    });
   }
 }
 

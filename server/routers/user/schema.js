@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 // const { PHONE_REG } = require('../../config');
 
-exports.register = {
+exports.POST_USER_REGISTER = {
   name: Joi.string().required(),
   password: Joi.string().length(6).required(),
   type: Joi.string().required()
@@ -10,8 +10,7 @@ exports.register = {
   // address: Joi.string(),
   // email: Joi.string().email()
 };
-
-exports.login = {
+exports.POST_USER_LOGIN = {
   name: Joi.string().required(),
   password: Joi.string().length(6).required()
 };

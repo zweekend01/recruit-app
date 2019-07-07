@@ -12,6 +12,7 @@ import {
 } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
 import { to } from 'await-to-js';
+import queryString from 'query-string';
 
 import { AVATAR_IMG } from '../../config/image';
 import styles from './index.less';
@@ -30,7 +31,8 @@ const mapDispacthToProps = dispatch => ({
 class PerfectInfo extends Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
-    perfectInfo: PropTypes.func.isRequired
+    perfectInfo: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   state = {
@@ -50,9 +52,13 @@ class PerfectInfo extends Component {
   }
 
   onPerfectInfo = async () => {
-    const { type, perfectInfo } = this.props;
+    const { type, perfectInfo, history } = this.props;
     const [err] = await to(perfectInfo({ type, ...this.state }));
-    // if (err) return;
+    if (err) return;
+
+    const { from } = queryString.parse(history.location.search);
+    const toURL = from ? decodeURIComponent(from) : '/dashboard/mine';
+    history.push(toURL);
   }
 
   render() {
