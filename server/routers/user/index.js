@@ -3,7 +3,7 @@ const router = express.Router();
 
 const schema = require('./schema');
 const { UserController } = require('../../controllers');
-const PREFIX = '/v1/users';
+const PREFIX = '/v1/user';
 
 router.post(
   `${PREFIX}/register`,

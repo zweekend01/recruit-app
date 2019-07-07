@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { WingBlank, WhiteSpace, Button } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
+import queryString from 'query-string';
 
 import { Logo } from '../../components';
 import { REGISTER_ROUTER, LOGIN_ROUTER } from '../../config/router';
@@ -9,18 +10,21 @@ import styles from './index.less';
 
 class Home extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired
   };
 
   onLogin = () => {
-    const { history, location: { search } } = this.props;
-    history.push(LOGIN_ROUTER + search);
+    const { history } = this.props;
+    const { from } = queryString.parse(history.location.search);
+    const toURL = from ? `${LOGIN_ROUTER}?from=${from}` : LOGIN_ROUTER;
+    history.push(toURL);
   }
 
   onRegister = () => {
-    const { history, location: { search } } = this.props;
-    history.push(REGISTER_ROUTER + search);
+    const { history } = this.props;
+    const { from } = queryString.parse(history);
+    const toURL = from ? `${REGISTER_ROUTER}?from=${from}` : REGISTER_ROUTER;
+    history.push(toURL);
   }
 
   render() {

@@ -1,10 +1,14 @@
-import initState from './state';
+import State from './state';
 import {
   INIT_SUCCESS,
   INIT_FAIL,
   REGISTER_SUCCESS,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  UPDATE_SUCCESS,
+  LOGOUT
 } from './action-type';
+
+const initState = new State();
 
 export default function (state = initState, action) {
   switch (action.type) {
@@ -17,6 +21,10 @@ export default function (state = initState, action) {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       return { ...state, isAuth: true, ...action.payload };
+    case UPDATE_SUCCESS:
+      return { ...state, ...action.payload };
+    case LOGOUT:
+      return { ...initState, hasInit: true };
     default:
       return { ...state };
   }

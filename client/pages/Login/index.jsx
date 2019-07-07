@@ -5,21 +5,21 @@ import {
   WingBlank, WhiteSpace, List, InputItem, Button
 } from 'antd-mobile';
 import queryString from 'query-string';
+import { to } from 'await-to-js';
 
 import { Logo } from '../../components';
 import { UserActionCreator } from '../../store/user';
 
+const mapStateToProps = ({ userState }) => ({ userState });
 const mapDispatchToProps = dispatch => ({
-  login: (param) => {
-    dispatch(UserActionCreator.loginAsync(param));
-  }
+  login: param => dispatch(UserActionCreator.loginAsync(param))
 });
 
-@connect(null, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 class Login extends Component {
   static propTypes = {
+    userState: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
   };
 
@@ -33,13 +33,21 @@ class Login extends Component {
   }
 
   onLogin = async () => {
-    const { login, location: { search }, history } = this.props;
-    await login(this.state);
+    const {
+      userState: { company, position },
+      login,
+      history
+    } = this.props;
 
-    const { from } = queryString.parse(search);
-    if (from) {
-      history.push(from);
-    }
+    const [err] = await to(login(this.state));
+    if (err) return;
+
+    const { from } = queryString.parse(history.location.search);
+    let toURL = '/dashboard/mine';
+
+    if (!company && !position) toURL = from ? `/perfect-info?from=${from}` : '/perfect-info';
+    if (from) toURL = decodeURIComponent(from);
+    history.push(toURL);
   }
 
   render() {

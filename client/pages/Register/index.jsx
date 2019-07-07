@@ -6,6 +6,7 @@ import {
   Flex, WingBlank, WhiteSpace, List, InputItem, Button
 } from 'antd-mobile';
 import queryString from 'query-string';
+import { to } from 'await-to-js';
 
 import { Logo } from '../../components';
 import styles from './index.less';
@@ -15,16 +16,16 @@ const types = [
   { key: 'genius', label: '牛人' },
   { key: 'boss', label: 'Boss' }
 ];
+const mapStateToProps = ({ userState }) => ({ userState });
 const mapDispatchToProps = dispatch => ({
-  register: (param) => {
-    dispatch(UserActionCreator.registerAsync(param));
-  }
+  register: param => dispatch(UserActionCreator.registerAsync(param))
 });
 
-@connect(null, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 @CSSModules(styles)
 class Register extends Component {
   static propTypes = {
+    userState: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
@@ -46,13 +47,22 @@ class Register extends Component {
   }
 
   onRegister = async () => {
-    const { register, location: { search }, history } = this.props;
-    await register({ ...this.state });
+    const {
+      userState: { company, position },
+      register,
+      location: { search },
+      history
+    } = this.props;
+
+    const [err] = await to(register({ ...this.state }));
+    if (err) return;
 
     const { from } = queryString.parse(search);
-    if (from) {
-      history.push(from);
-    }
+    let toURL = '/dashboard/mine';
+
+    if (!company && !position) toURL = from ? `/perfect-info?from=${from}` : '/perfect-info';
+    if (from) toURL = decodeURIComponent(from);
+    history.push(toURL);
   }
 
   render() {

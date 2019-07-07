@@ -12,14 +12,14 @@ const mapStateToProps = ({ userState }) => ({
 class AuthRouter extends Component {
   static propTypes = {
     isAuth: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     children: PropTypes.any.isRequired
   };
 
   render() {
     const {
       isAuth,
-      history: { location: { pathname, search, hash } },
+      location: { pathname, search, hash },
       children
     } = this.props;
     const locationStr = encodeURIComponent(pathname + search + hash);

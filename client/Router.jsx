@@ -1,22 +1,17 @@
 import React from 'react';
 import {
-  BrowserRouter, Switch, Route
+  BrowserRouter, Switch, Route, Redirect
 } from 'react-router-dom';
 
 import { AuthRouter } from './components';
-import { Home, Register, Login } from './pages';
-
-import Http from './services/http';
-
-function onClick() {
-  Http.request({
-    url: '/v1/loop'
-  });
-}
-function Test() {
-  return <div onClick={onClick}>This is Test</div>;
-}
-
+import {
+  Home,
+  Register,
+  Login,
+  PerfectInfo,
+  Dashboard,
+  NotFound
+} from './pages';
 
 const Router = () => (
   <BrowserRouter>
@@ -25,7 +20,12 @@ const Router = () => (
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <AuthRouter>
-        <Route path="/test" component={Test} />
+        <Switch>
+          <Route path="/perfect-info" component={PerfectInfo} />
+          <Route exact path="/dashboard" render={() => <Redirect to="/dashboard/mine" />} />
+          <Route path="/dashboard/:tab" component={Dashboard} />
+          <Route component={NotFound} />
+        </Switch>
       </AuthRouter>
     </Switch>
   </BrowserRouter>

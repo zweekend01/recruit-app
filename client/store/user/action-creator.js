@@ -5,7 +5,9 @@ import {
   INIT_SUCCESS,
   INIT_FAIL,
   REGISTER_SUCCESS,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  UPDATE_SUCCESS,
+  LOGOUT
 } from './action-type';
 
 export default class {
@@ -46,5 +48,35 @@ export default class {
       // dispacth action
       dispatch({ type: LOGIN_SUCCESS, payload: userInfo });
     };
+  }
+
+  static perfectInfoAsync({
+    avatar, company, position, salary, desc, type
+  }) {
+    return async (dispatch) => {
+      const [err] = type === 'boss'
+        ? await to(UserService.updateBoss({
+          avatar, company, position, salary, desc
+        }))
+        : await to(UserService.updateGenius({
+          avatar, position, salary, desc
+        }));
+      if (err) return;
+
+      // dispatch action
+      dispatch({
+        type: UPDATE_SUCCESS,
+        payload: {
+          avatar, company, position, salary, desc
+        }
+      });
+    };
+  }
+
+  static logoutSync() {
+    // 清楚缓存
+    localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
+    return { type: LOGOUT };
   }
 }

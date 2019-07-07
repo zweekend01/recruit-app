@@ -1,0 +1,17 @@
+@import '../../styles/themes/index';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  .header,
+  .footer {
+    flex-shrink: 0;
+  }
+  .content {
+    background-color: @background-gray;
+    flex-grow: 1;
+    overflow: scroll;
+  }
+}
