@@ -1,30 +1,21 @@
-import State from './state';
-import {
-  INIT_SUCCESS,
-  INIT_FAIL,
-  REGISTER_SUCCESS,
-  LOGIN_SUCCESS,
-  UPDATE_SUCCESS,
-  LOGOUT
-} from './action-type';
+import userState from './state';
+import * as userActionType from './action-type';
 
-const initState = new State();
-
-export default function (state = initState, action) {
+export default function (state = userState, action) {
   switch (action.type) {
-    case INIT_SUCCESS:
+    case userActionType.INIT_SUCCESS:
       return {
         ...state, hasInit: true, isAuth: true, ...action.payload
       };
-    case INIT_FAIL:
-      return { ...state, ...initState, hasInit: true };
-    case REGISTER_SUCCESS:
-    case LOGIN_SUCCESS:
+    case userActionType.INIT_FAIL:
+      return { ...state, ...userState, hasInit: true };
+    case userActionType.REGISTER_SUCCESS:
+    case userActionType.LOGIN_SUCCESS:
       return { ...state, isAuth: true, ...action.payload };
-    case UPDATE_SUCCESS:
+    case userActionType.UPDATE_SUCCESS:
       return { ...state, ...action.payload };
-    case LOGOUT:
-      return { ...initState, hasInit: true };
+    case userActionType.LOGOUT:
+      return { ...userState, hasInit: true };
     default:
       return { ...state };
   }

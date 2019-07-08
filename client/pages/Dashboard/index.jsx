@@ -28,18 +28,18 @@ const mapStateToProps = ({ userState }) => ({
 @CSSModules(styles)
 class Dashboard extends Component {
   static propTypes = {
-    type: PropTypes.string.isRequired,
     match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
   };
 
   get navBarTitle() {
-    const { type, match: { params: { tab } } } = this.props;
+    const { match: { params: { tab } }, type } = this.props;
     return tab === 'user' ? navBarTitleMap[`user${type}`] : navBarTitleMap[tab];
   }
 
   get tabList() {
-    const { type, match: { params: { tab } } } = this.props;
+    const { match: { params: { tab } }, type } = this.props;
     return [
       {
         key: 'user',

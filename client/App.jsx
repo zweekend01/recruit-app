@@ -4,15 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Router from './Router';
-import { UserActionCreator } from './store/user';
+import { userActionCreator } from './store/user';
 
 const mapStateToProps = ({ userState }) => ({
   hasInit: userState.hasInit,
 });
 const mapDispatchToProps = dispatch => ({
-  initialize: () => {
-    dispatch(UserActionCreator.initializeSync());
-  }
+  initialize: () => dispatch(userActionCreator.initializeSync())
 });
 
 @connect(mapStateToProps, mapDispatchToProps)

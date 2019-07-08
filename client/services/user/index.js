@@ -1,19 +1,19 @@
-import Http from '../http';
-import * as userSchema from './schema';
 import * as userApi from './api';
+import userSchema from './schema';
+import http from '../http';
 
-export default class UserService {
+export default {
   /**
    * 用户注册
    * @param {string} name
    * @param {string} password
    * @param {string} type
    */
-  static async postUserRegister(name, password, type) {
+  async postUserRegister(name, password, type) {
     // 校验参数
-    const data = Http.validate({ name, password, type }, userSchema.POST_USER_REGISTER);
+    const data = http.validate({ name, password, type }, userSchema.postUserRegister());
     // 发起请求
-    const userInfo = await Http.post({
+    const userInfo = await http.post({
       data,
       url: userApi.POST_USER_REGISTER,
       needToken: false,
@@ -23,18 +23,18 @@ export default class UserService {
     });
 
     return userInfo;
-  }
+  },
 
   /**
    * 用户登录
    * @param {string} name
    * @param {string} password
    */
-  static async postUserLogin(name, password) {
+  async postUserLogin(name, password) {
     // 校验参数
-    const data = Http.validate({ name, password }, userSchema.POST_USER_LOGIN);
+    const data = http.validate({ name, password }, userSchema.postUserLogin);
     // 发起请求
-    const userInfo = await Http.post({
+    const userInfo = await http.post({
       data,
       url: userApi.POST_USER_LOGIN,
       needToken: false,
@@ -44,25 +44,24 @@ export default class UserService {
     });
 
     return userInfo;
-  }
+  },
 
   /**
    * 更新用户信息
-   * @param {string} [avatar]
+   * @param {string} type
    * @param {string} company
    * @param {string} position
+   * @param {string} [avatar]
    * @param {string} [salary]
    * @param {string} [desc]
-   * @param {string} type
    */
-  static async putUser(avatar, company, position, salary, desc, type) {
-    console.log('put');
+  async putUser(type, company, position, avatar = '', salary = '', desc = '') {
     // 校验参数
-    const data = Http.validate({
-      avatar, company, position, salary, desc
-    }, userSchema.PUT_USER_BOSS(type));
+    const data = http.validate({
+      company, position, avatar, salary, desc
+    }, userSchema.putUser(type));
     // 发起请求
-    await Http.put({
+    await http.put({
       data,
       url: userApi.USER_BASE,
       loadingText: '正在保存',
@@ -70,4 +69,4 @@ export default class UserService {
       errorText: '保存失败'
     });
   }
-}
+};

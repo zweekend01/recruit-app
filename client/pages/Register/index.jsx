@@ -10,7 +10,7 @@ import { to } from 'await-to-js';
 
 import { Logo } from '../../components';
 import styles from './index.less';
-import { UserActionCreator } from '../../store/user';
+import { userActionCreator } from '../../store/user';
 
 const types = [
   { key: 'genius', label: '牛人' },
@@ -18,17 +18,17 @@ const types = [
 ];
 const mapStateToProps = ({ userState }) => ({ userState });
 const mapDispatchToProps = dispatch => ({
-  register: param => dispatch(UserActionCreator.registerAsync(param))
+  register: param => dispatch(userActionCreator.registerAsync(param))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 @CSSModules(styles)
 class Register extends Component {
   static propTypes = {
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     userState: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
   };
 
   state = {
@@ -48,10 +48,10 @@ class Register extends Component {
 
   onRegister = async () => {
     const {
-      userState: { company, position },
-      register,
       location: { search },
-      history
+      history,
+      userState: { company, position },
+      register
     } = this.props;
 
     const [err] = await to(register({ ...this.state }));

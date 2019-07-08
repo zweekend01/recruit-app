@@ -8,19 +8,19 @@ import queryString from 'query-string';
 import { to } from 'await-to-js';
 
 import { Logo } from '../../components';
-import { UserActionCreator } from '../../store/user';
+import { userActionCreator } from '../../store/user';
 
 const mapStateToProps = ({ userState }) => ({ userState });
 const mapDispatchToProps = dispatch => ({
-  login: param => dispatch(UserActionCreator.loginAsync(param))
+  login: param => dispatch(userActionCreator.loginAsync(param))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 class Login extends Component {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     userState: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    login: PropTypes.func.isRequired
   };
 
   state = {
@@ -34,9 +34,9 @@ class Login extends Component {
 
   onLogin = async () => {
     const {
+      history,
       userState: { company, position },
-      login,
-      history
+      login
     } = this.props;
 
     const [err] = await to(login(this.state));

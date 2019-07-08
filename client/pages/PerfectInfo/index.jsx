@@ -16,23 +16,23 @@ import queryString from 'query-string';
 
 import { AVATAR_IMG } from '../../config/image';
 import styles from './index.less';
-import { UserActionCreator } from '../../store/user';
+import { userActionCreator } from '../../store/user';
 
 const gridData = AVATAR_IMG.map(item => ({ icon: item }));
 const mapStateToProps = ({ userState }) => ({
   type: userState.type
 });
 const mapDispacthToProps = dispatch => ({
-  perfectInfo: param => dispatch(UserActionCreator.perfectInfoAsync(param))
+  perfectInfo: param => dispatch(userActionCreator.perfectInfoAsync(param))
 });
 
 @connect(mapStateToProps, mapDispacthToProps)
 @CSSModules(styles)
 class PerfectInfo extends Component {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
-    perfectInfo: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    perfectInfo: PropTypes.func.isRequired
   };
 
   state = {
@@ -52,7 +52,7 @@ class PerfectInfo extends Component {
   }
 
   onPerfectInfo = async () => {
-    const { type, perfectInfo, history } = this.props;
+    const { history, type, perfectInfo } = this.props;
     const [err] = await to(perfectInfo({ type, ...this.state }));
     if (err) return;
 
@@ -95,7 +95,6 @@ class PerfectInfo extends Component {
             <WhiteSpace size="xl" />
           </WingBlank>
         </div>
-
       </div>
     );
   }

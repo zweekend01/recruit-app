@@ -6,13 +6,13 @@ import {
 } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
 
-import { UserActionCreator } from '../../../store/user';
+import { userActionCreator } from '../../../store/user';
 import { DEFAULT_AVATAR_IMG } from '../../../config/image';
 import styles from './index.less';
 
 const mapStateToProps = ({ userState }) => ({ userState });
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(UserActionCreator.logoutSync())
+  logout: () => dispatch(userActionCreator.logoutSync())
 });
 const { Item } = List;
 const { Brief } = Item;

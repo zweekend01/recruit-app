@@ -33,7 +33,7 @@ axios.interceptors.response.use((response) => {
 /**
  * @class
  */
-export default class Http {
+export default {
   /**
    * @param {boolean} [needToken] - 请求是否需要token
    * @param {boolean} [showLoading] - 请求是否需要显式loading
@@ -66,7 +66,7 @@ export default class Http {
    * @param {Function[]} [config.transformResponse] - 在传递给 then/catch 前，允许修改响应数据
    * @param {Object} [config.proxy] - 定义代理服务器的主机名称和端口
    */
-  static request({
+  request({
     needToken = true,
     showLoading = true,
     loadingText = '正在加载数据',
@@ -96,33 +96,26 @@ export default class Http {
           reject(error);
         });
     });
-  }
-
-  static post(config) {
+  },
+  post(config) {
     return this.request({ method: 'POST', ...config });
-  }
-
-  static get(config) {
+  },
+  get(config) {
     return this.request({ method: 'GET', ...config });
-  }
-
-  static head(config) {
+  },
+  head(config) {
     return this.request({ method: 'HEAD', ...config });
-  }
-
-  static put(config) {
+  },
+  put(config) {
     return this.request({ method: 'PUT', ...config });
-  }
-
-  static patch(config) {
+  },
+  patch(config) {
     return this.request({ method: 'PATCH', ...config });
-  }
-
-  static delete(config) {
+  },
+  delete(config) {
     return this.request({ method: 'DELETE', ...config });
-  }
-
-  static validate(val, schema) {
+  },
+  validate(val, schema) {
     const { error, value } = Joi.validate(val, schema);
 
     if (error) {
@@ -133,4 +126,4 @@ export default class Http {
     }
     return value;
   }
-}
+};

@@ -8,6 +8,7 @@ import { Logo } from '../../components';
 import { REGISTER_ROUTER, LOGIN_ROUTER } from '../../config/router';
 import styles from './index.less';
 
+@CSSModules(styles)
 class Home extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired
@@ -22,7 +23,7 @@ class Home extends Component {
 
   onRegister = () => {
     const { history } = this.props;
-    const { from } = queryString.parse(history);
+    const { from } = queryString.parse(history.location.search);
     const toURL = from ? `${REGISTER_ROUTER}?from=${from}` : REGISTER_ROUTER;
     history.push(toURL);
   }
@@ -48,4 +49,4 @@ class Home extends Component {
   }
 }
 
-export default CSSModules(Home, styles);
+export default Home;
