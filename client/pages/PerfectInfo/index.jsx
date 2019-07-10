@@ -23,7 +23,7 @@ const mapStateToProps = ({ userState }) => ({
   type: userState.type
 });
 const mapDispacthToProps = dispatch => ({
-  perfectInfo: param => dispatch(userActionCreator.perfectInfoAsync(param))
+  updateInfo: param => dispatch(userActionCreator.updateAsync(param))
 });
 
 @connect(mapStateToProps, mapDispacthToProps)
@@ -32,7 +32,7 @@ class PerfectInfo extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
-    perfectInfo: PropTypes.func.isRequired
+    updateInfo: PropTypes.func.isRequired
   };
 
   state = {
@@ -51,9 +51,9 @@ class PerfectInfo extends Component {
     this.setState({ [field]: value });
   }
 
-  onPerfectInfo = async () => {
-    const { history, type, perfectInfo } = this.props;
-    const [err] = await to(perfectInfo({ type, ...this.state }));
+  onUpdateInfo = async () => {
+    const { history, type, updateInfo } = this.props;
+    const [err] = await to(updateInfo({ type, ...this.state }));
     if (err) return;
 
     const { from } = queryString.parse(history.location.search);
@@ -91,7 +91,7 @@ class PerfectInfo extends Component {
             <InputItem value={salary} onChange={this.onCollectInfo.bind(this, 'salary')}>{type === 'boss' ? '提供' : '期望'}薪资</InputItem>
             <TextareaItem title="简介" value={desc} autoHeight onChange={this.onCollectInfo.bind(this, 'desc')} />
             <WhiteSpace size="xl" />
-            <Button type="primary" size="small" onClick={this.onPerfectInfo}>保存</Button>
+            <Button type="primary" size="small" onClick={this.onUpdateInfo}>保存</Button>
             <WhiteSpace size="xl" />
           </WingBlank>
         </div>

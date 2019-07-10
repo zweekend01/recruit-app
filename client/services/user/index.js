@@ -1,4 +1,8 @@
-import * as userApi from './api';
+import {
+  USER_BASE,
+  POST_USER_REGISTER,
+  POST_USER_LOGIN
+} from './api';
 import userSchema from './schema';
 import http from '../http';
 
@@ -15,7 +19,7 @@ export default {
     // 发起请求
     const userInfo = await http.post({
       data,
-      url: userApi.POST_USER_REGISTER,
+      url: POST_USER_REGISTER,
       needToken: false,
       loadingText: '正在注册',
       showSuccess: false,
@@ -32,11 +36,11 @@ export default {
    */
   async postUserLogin(name, password) {
     // 校验参数
-    const data = http.validate({ name, password }, userSchema.postUserLogin);
+    const data = http.validate({ name, password }, userSchema.postUserLogin());
     // 发起请求
     const userInfo = await http.post({
       data,
-      url: userApi.POST_USER_LOGIN,
+      url: POST_USER_LOGIN,
       needToken: false,
       loadingText: '正在登录',
       showSuccess: false,
@@ -63,7 +67,7 @@ export default {
     // 发起请求
     await http.put({
       data,
-      url: userApi.USER_BASE,
+      url: USER_BASE,
       loadingText: '正在保存',
       showSuccess: false,
       errorText: '保存失败'

@@ -11,15 +11,15 @@ const mapStateToProps = ({ userState }) => ({
 @connect(mapStateToProps)
 class AuthRouter extends Component {
   static propTypes = {
-    isAuth: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
+    isAuth: PropTypes.bool.isRequired,
     children: PropTypes.any.isRequired
   };
 
   render() {
     const {
-      isAuth,
       location: { pathname, search, hash },
+      isAuth,
       children
     } = this.props;
     const locationStr = encodeURIComponent(pathname + search + hash);

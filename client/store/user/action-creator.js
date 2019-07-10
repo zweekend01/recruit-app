@@ -1,19 +1,31 @@
 import { Toast } from 'antd-mobile';
 import to from 'await-to-js';
 import { userService } from '../../services';
-import * as userActionType from './action-type';
+import {
+  INITIALIZE_SUCCESS,
+  INITIALIZE_FAIL,
+  REGISTER_SUCCESS,
+  LOGIN_SUCCESS,
+  UPDATE_SUCCESS
+} from './action-type';
 
-export default class UserActionCreator {
-  static initializeSync() {
+export default {
+  /**
+   * 初始化用户信息 sync action
+   */
+  initializeSync() {
     const token = localStorage.getItem('token');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const action = token && userInfo
-      ? { type: userActionType.INIT_SUCCESS, payload: userInfo }
-      : { type: userActionType.INIT_FAIL };
+      ? { type: INITIALIZE_SUCCESS, payload: userInfo }
+      : { type: INITIALIZE_FAIL };
     return action;
-  }
+  },
 
-  static registerAsync({
+  /**
+   * 用户注册 async action
+   */
+  registerAsync({
     name, password, repeatPwd, type
   }) {
     if (password !== repeatPwd) {
@@ -27,11 +39,14 @@ export default class UserActionCreator {
       // 将用户信息存入缓存
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       // dispatch action
-      dispatch({ type: userActionType.REGISTER_SUCCESS, payload: userInfo });
+      dispatch({ type: REGISTER_SUCCESS, payload: userInfo });
     };
-  }
+  },
 
-  static loginAsync({ name, password }) {
+  /**
+   * 用户登录 async action
+   */
+  loginAsync({ name, password }) {
     return async (dispatch) => {
       const [err, userInfo] = await to(userService.postUserLogin(name, password));
       if (err) return;
@@ -39,11 +54,14 @@ export default class UserActionCreator {
       // 将用户信息存入缓存
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       // dispacth action
-      dispatch({ type: userActionType.LOGIN_SUCCESS, payload: userInfo });
+      dispatch({ type: LOGIN_SUCCESS, payload: userInfo });
     };
-  }
+  },
 
-  static perfectInfoAsync({
+  /**
+   * 用户信息更新 async action
+   */
+  updateAsync({
     type, company, position, avatar, salary, desc
   }) {
     return async (dispatch) => {
@@ -57,11 +75,11 @@ export default class UserActionCreator {
       });
       // dispatch action
       dispatch({
-        type: userActionType.UPDATE_SUCCESS,
+        type: UPDATE_SUCCESS,
         payload: {
           avatar, company, position, salary, desc
         }
       });
     };
   }
-}
+};

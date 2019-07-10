@@ -10,7 +10,12 @@ import { to } from 'await-to-js';
 import { Logo } from '../../components';
 import { userActionCreator } from '../../store/user';
 
-const mapStateToProps = ({ userState }) => ({ userState });
+const mapStateToProps = ({
+  userState: { company, position }
+}) => ({
+  company,
+  position
+});
 const mapDispatchToProps = dispatch => ({
   login: param => dispatch(userActionCreator.loginAsync(param))
 });
@@ -19,7 +24,8 @@ const mapDispatchToProps = dispatch => ({
 class Login extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    userState: PropTypes.object.isRequired,
+    company: PropTypes.string.isRequired,
+    position: PropTypes.string.isRequired,
     login: PropTypes.func.isRequired
   };
 
@@ -35,7 +41,8 @@ class Login extends Component {
   onLogin = async () => {
     const {
       history,
-      userState: { company, position },
+      company,
+      position,
       login
     } = this.props;
 
