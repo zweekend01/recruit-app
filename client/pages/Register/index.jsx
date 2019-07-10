@@ -16,7 +16,12 @@ const types = [
   { key: 'genius', label: '牛人' },
   { key: 'boss', label: 'Boss' }
 ];
-const mapStateToProps = ({ userState }) => ({ userState });
+const mapStateToProps = ({
+  userState: { company, position }
+}) => ({
+  company,
+  position
+});
 const mapDispatchToProps = dispatch => ({
   register: param => dispatch(userActionCreator.registerAsync(param))
 });
@@ -27,7 +32,8 @@ class Register extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    userState: PropTypes.object.isRequired,
+    company: PropTypes.string.isRequired,
+    position: PropTypes.string.isRequired,
     register: PropTypes.func.isRequired,
   };
 
@@ -50,7 +56,8 @@ class Register extends Component {
     const {
       location: { search },
       history,
-      userState: { company, position },
+      company,
+      position,
       register
     } = this.props;
 

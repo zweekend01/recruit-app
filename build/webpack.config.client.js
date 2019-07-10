@@ -6,12 +6,14 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      '@': path.join(__dirname, '../client'),
-      'react-dom': '@hot-loader/react-dom'
+      '@': path.join(__dirname, '../client')
     }
   },
   entry: {
-    index: path.join(__dirname, '../client/index.js')
+    index: [
+      'react-hot-loader/patch',
+      path.join(__dirname, '../client/index.js')
+    ]
   },
   output: {
     path: path.join(__dirname, '../public'),

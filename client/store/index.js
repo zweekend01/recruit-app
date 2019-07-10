@@ -2,9 +2,10 @@ import {
   createStore,
   combineReducers,
   applyMiddleware,
-  // compose
+  compose
 } from 'redux';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
 import { userReducer } from './user';
 
@@ -14,16 +15,16 @@ const reducers = combineReducers({
 });
 
 // middlewares and enhancers
-// const composeEnhancers = typeof window === 'object' &&
-// window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-//   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
-//   : compose;
-// const enhancers = compose(
-//   applyMiddleware(thunk),
-//   (window && window.devToolsExtension) ? window.devToolsExtension() : f => f,
-// );
-const enhancers = applyMiddleware(thunk);
+const middlewares = [thunk];
+if (process.env.NODE_ENV === 'development') {
+  middlewares.push(logger);
+}
+const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  : compose;
+const enhancers = composeEnhancers(applyMiddleware(...middlewares));
 
-const store = createStore(reducers, enhancers);
+// store
+const store = createStore(reducers, {}, enhancers);
 
 export default store;
