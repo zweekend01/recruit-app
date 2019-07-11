@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import {
   Flex, WingBlank, WhiteSpace, List, InputItem, Button
 } from 'antd-mobile';
-import queryString from 'query-string';
 import { to } from 'await-to-js';
 
 import { Logo } from '../../components';
@@ -30,10 +29,7 @@ const mapDispatchToProps = dispatch => ({
 @CSSModules(styles)
 class Register extends Component {
   static propTypes = {
-    location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    company: PropTypes.string.isRequired,
-    position: PropTypes.string.isRequired,
     register: PropTypes.func.isRequired,
   };
 
@@ -53,23 +49,10 @@ class Register extends Component {
   }
 
   onRegister = async () => {
-    const {
-      location: { search },
-      history,
-      company,
-      position,
-      register
-    } = this.props;
-
+    const { history, register } = this.props;
     const [err] = await to(register({ ...this.state }));
     if (err) return;
-
-    const { from } = queryString.parse(search);
-    let toURL = '/dashboard/mine';
-
-    if (!company && !position) toURL = from ? `/perfect-info?from=${from}` : '/perfect-info';
-    if (from) toURL = decodeURIComponent(from);
-    history.push(toURL);
+    history.push('/perfect-info', history.location.state);
   }
 
   render() {

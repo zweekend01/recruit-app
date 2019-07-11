@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import {
-  NavBar,
-  TabBar
-} from 'antd-mobile';
+import { Route } from 'react-router-dom';
+import { NavBar, TabBar } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
 
 import * as image from '../../config/image';
@@ -20,6 +17,11 @@ const navBarTitleMap = {
   message: '消息列表',
   mine: '个人中心'
 };
+const routes = [
+  { path: '/dashboard/user', component: UserList },
+  { path: '/dashboard/message', component: MessageList },
+  { path: '/dashboard/mine', component: Mine },
+];
 const mapStateToProps = ({ userState }) => ({
   type: userState.type
 });
@@ -82,11 +84,7 @@ class Dashboard extends Component {
         </div>
         {/* content */}
         <div styleName="content">
-          <Switch>
-            <Route path="/dashboard/user" component={UserList} />
-            <Route path="/dashboard/message" component={MessageList} />
-            <Route path="/dashboard/mine" component={Mine} />
-          </Switch>
+          {routes.map(item => <Route key={item.path} {...item} />)}
         </div>
         {/* footer */}
         <div styleName="footer">
