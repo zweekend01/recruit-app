@@ -12,7 +12,6 @@ import {
 } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
 import { to } from 'await-to-js';
-import queryString from 'query-string';
 
 import { AVATAR_IMG } from '../../config/image';
 import styles from './index.less';
@@ -56,8 +55,8 @@ class PerfectInfo extends Component {
     const [err] = await to(updateInfo({ type, ...this.state }));
     if (err) return;
 
-    const { from } = queryString.parse(history.location.search);
-    const toURL = from ? decodeURIComponent(from) : '/dashboard/mine';
+    const { location: { state: { from } } } = history;
+    const toURL = from || '/dashboard/mine';
     history.push(toURL);
   }
 

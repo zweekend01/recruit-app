@@ -3,12 +3,12 @@ const Joi = require('@hapi/joi');
 class Controller {
   /**
    * 校验请求参数
-   * @param {*} schema
+   * @param {Function} schemaCreator
    */
-  static validate(schema) {
+  static validate(schemaCreator) {
     return function (req, res, next) {
       const value = { ...req.query, ...req.body };
-      Joi.validate(value, schema, (error, value) => {
+      Joi.validate(value, schemaCreator(req.user), (error, value) => {
         if (error) {
           let msg = error.details ? error.details[0].message : error.message;
           msg = msg.replace(/"/g, '');

@@ -48,16 +48,16 @@ class UserModel {
   /**
    * 更新用户的信息
    * @param {object} user
-   * @param {string} user.avatar
+   * @param {string} user.id
    * @param {string} user.company
    * @param {string} user.position
+   * @param {string} user.avatar
    * @param {string} user.salary
    * @param {string} user.desc
-   * @param {string} user.id
    * @param {Function} cb
    */
-  update({ id, avatar, company, position, salary, desc }, cb) {
-    this.db.query(userSql.UPDATE, [avatar, company, position, salary, desc, id], (err, results) => {
+  update({ id, company, position, avatar = '', salary = '', desc = '' }, cb) {
+    this.db.query(userSql.UPDATE, [company, position, avatar, salary, desc, id], (err, results) => {
       if (err) return cb(err);
       return cb(null, results);
     });

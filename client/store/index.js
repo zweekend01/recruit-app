@@ -25,6 +25,6 @@ const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_E
 const enhancers = composeEnhancers(applyMiddleware(...middlewares));
 
 // store
-const store = createStore(reducers, {}, enhancers);
+const store = createStore(reducers, enhancers);
 
 export default store;

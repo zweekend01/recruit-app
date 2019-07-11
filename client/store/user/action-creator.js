@@ -65,7 +65,9 @@ export default {
     type, company, position, avatar, salary, desc
   }) {
     return async (dispatch) => {
-      const [err] = await to(userService.putUser(type, company, position, avatar, salary, desc));
+      const [err] = await to(userService.putUser({
+        type, company, position, avatar, salary, desc
+      }));
       if (err) return;
 
       // 将用户信息存入缓存

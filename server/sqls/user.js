@@ -28,5 +28,5 @@ exports.SELECT_BY_NAME = `
 
 // 更新用户的信息
 exports.UPDATE = `
-  UPDATE users SET avatar = ?, company = ?, position = ?, salary = ?, desc = ? WHERE id = ?;
+  UPDATE users SET company = ?, position = ?, avatar = ?, salary = ?, desc = ? WHERE id = ?;
 `;

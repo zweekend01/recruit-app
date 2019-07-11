@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { WingBlank, WhiteSpace, Button } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
-import queryString from 'query-string';
 
 import { Logo } from '../../components';
 import { REGISTER_ROUTER, LOGIN_ROUTER } from '../../config/router';
@@ -16,16 +15,12 @@ class Home extends Component {
 
   onLogin = () => {
     const { history } = this.props;
-    const { from } = queryString.parse(history.location.search);
-    const toURL = from ? `${LOGIN_ROUTER}?from=${from}` : LOGIN_ROUTER;
-    history.push(toURL);
+    history.push(LOGIN_ROUTER, history.location.state);
   }
 
   onRegister = () => {
     const { history } = this.props;
-    const { from } = queryString.parse(history.location.search);
-    const toURL = from ? `${REGISTER_ROUTER}?from=${from}` : REGISTER_ROUTER;
-    history.push(toURL);
+    history.push(REGISTER_ROUTER, history.location.state);
   }
 
   render() {

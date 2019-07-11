@@ -52,14 +52,17 @@ export default {
 
   /**
    * 更新用户信息
-   * @param {string} type
-   * @param {string} company
-   * @param {string} position
-   * @param {string} [avatar]
-   * @param {string} [salary]
-   * @param {string} [desc]
+   * @param {Object} info
+   * @param {string} info.type
+   * @param {string} info.company
+   * @param {string} info.position
+   * @param {string} [info.avatar]
+   * @param {string} [info.salary]
+   * @param {string} [info.desc]
    */
-  async putUser(type, company, position, avatar = '', salary = '', desc = '') {
+  async putUser({
+    type, company, position, avatar = '', salary = '', desc = ''
+  }) {
     // 校验参数
     const data = http.validate({
       company, position, avatar, salary, desc

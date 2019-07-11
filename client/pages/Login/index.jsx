@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import {
   WingBlank, WhiteSpace, List, InputItem, Button
 } from 'antd-mobile';
-import queryString from 'query-string';
 import { to } from 'await-to-js';
 
 import { Logo } from '../../components';
@@ -49,12 +48,11 @@ class Login extends Component {
     const [err] = await to(login(this.state));
     if (err) return;
 
-    const { from } = queryString.parse(history.location.search);
+    const { location: { state: { from } } } = history;
     let toURL = '/dashboard/mine';
-
-    if (!company && !position) toURL = from ? `/perfect-info?from=${from}` : '/perfect-info';
-    if (from) toURL = decodeURIComponent(from);
-    history.push(toURL);
+    if (!company && !position) toURL = '/perfect-info';
+    if (from) toURL = from;
+    history.push(toURL, history.location.state);
   }
 
   render() {

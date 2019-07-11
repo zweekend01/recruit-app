@@ -21,14 +21,14 @@ class UserController extends Controller {
       if (results[0] && results[0].id) return res.restError(ERROR_USER_EXISTED, next);
 
       // 将密码加密
-      password = UserController.getHamcPassword(password);
+      password = this.getHamcPassword(password);
 
       // 插入一条用户记录
       userModel.insert({ name, password, type }, (err, results) => {
         if (err) return next(createError(500));
 
         // 将 token 放在 Authorization 响应头中
-        res.set('Authorization', 'Bearer ' + UserController.getToken(results.insertId));
+        res.set('Authorization', 'Bearer ' + this.getToken(results.insertId));
         res.restData({ name, type, id: results.insertId }, 'Register success');
       });
     });
@@ -46,11 +46,11 @@ class UserController extends Controller {
       if (!results[0]) return res.restError(ERROR_USER_NOT_EXISTED, next);
 
       // 检测密码是否正确
-      password = UserController.getHamcPassword(password);
+      password = this.getHamcPassword(password);
       if (password !== results[0].password) return res.restError(ERROR_USER_PWD_INCORRECT, next);
 
       // 将 token 放在 Authorization 响应头中
-      res.set('Authorization', 'Bearer ' + UserController.getToken(results[0].id));
+      res.set('Authorization', 'Bearer ' + this.getToken(results[0].id));
       delete results[0].password;
       res.restData({ ...results[0] }, 'Login success');
     });
