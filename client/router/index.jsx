@@ -13,16 +13,16 @@ import {
   NotFound
 } from '../pages';
 
-const redirects = [];
-const routes = [
+const publicRedirects = [];
+const publicRoutes = [
   { exact: true, path: '/', component: Home },
   { path: '/register', component: Register },
   { path: '/login', component: Login }
 ];
-const privateRedirects = [
+const protectedRedirects = [
   { from: '/dashboard', to: '/dashboard/mine' }
 ];
-const privateRoutes = [
+const protectedRoutes = [
   { path: '/perfect-info', component: PerfectInfo },
   { path: '/dashboard/:tab', component: Dashboard }
 ];
@@ -31,15 +31,15 @@ const Router = () => (
   <BrowserRouter>
     <Switch>
       {/* Redirects */}
-      {redirects.map(item => <Redirect key={item.from} {...item} />)}
+      {publicRedirects.map(item => <Redirect key={item.from} {...item} />)}
       {/* Routes */}
-      {routes.map(item => <Route key={item.path} {...item} />)}
+      {publicRoutes.map(item => <Route key={item.path} {...item} />)}
       {/* AuthRoute */}
       <AuthRoute />
       {/* PrivateRedirects */}
-      {privateRedirects.map(item => <Redirect key={item.from} {...item} />)}
+      {protectedRedirects.map(item => <Redirect key={item.from} {...item} />)}
       {/* PrivateRoutes */}
-      {privateRoutes.map(item => <Route key={item.path} {...item} />)}
+      {protectedRoutes.map(item => <Route key={item.path} {...item} />)}
       {/* NotFound */}
       <Route component={NotFound} />
     </Switch>
