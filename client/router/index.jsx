@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter, Switch, Route, Redirect
+  Switch, Route, Redirect
 } from 'react-router-dom';
 
 import AuthRoute from './AuthRoute';
@@ -27,23 +27,19 @@ const protectedRoutes = [
   { path: '/dashboard/:tab', component: Dashboard }
 ];
 
-const Router = () => (
-  <BrowserRouter>
-    <Switch>
-      {/* Redirects */}
-      {publicRedirects.map(item => <Redirect key={item.from} {...item} />)}
-      {/* Routes */}
-      {publicRoutes.map(item => <Route key={item.path} {...item} />)}
-      {/* AuthRoute */}
-      <AuthRoute />
-      {/* PrivateRedirects */}
-      {protectedRedirects.map(item => <Redirect key={item.from} {...item} />)}
-      {/* PrivateRoutes */}
-      {protectedRoutes.map(item => <Route key={item.path} {...item} />)}
-      {/* NotFound */}
-      <Route component={NotFound} />
-    </Switch>
-  </BrowserRouter>
+export default () => (
+  <Switch>
+    {/* Redirects */}
+    {publicRedirects.map(item => <Redirect key={item.from} {...item} />)}
+    {/* Routes */}
+    {publicRoutes.map(item => <Route key={item.path} {...item} />)}
+    {/* AuthRoute */}
+    <AuthRoute />
+    {/* PrivateRedirects */}
+    {protectedRedirects.map(item => <Redirect key={item.from} {...item} />)}
+    {/* PrivateRoutes */}
+    {protectedRoutes.map(item => <Route key={item.path} {...item} />)}
+    {/* NotFound */}
+    <Route component={NotFound} />
+  </Switch>
 );
-
-export default Router;

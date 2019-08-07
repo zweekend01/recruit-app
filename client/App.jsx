@@ -2,8 +2,9 @@ import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
-import Router from './router';
+import AppRouter from './router';
 import { userActionCreator } from './store/user';
 
 const mapStateToProps = ({ userState }) => ({
@@ -27,7 +28,13 @@ class App extends Component {
 
   render() {
     const { hasInit } = this.props;
-    return hasInit ? <Router /> : null;
+    return hasInit
+      ? (
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      )
+      : null;
   }
 }
 

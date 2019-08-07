@@ -6,8 +6,8 @@ import { NavBar, TabBar } from 'antd-mobile';
 import CSSModules from 'react-css-modules';
 
 import * as image from '../../config/image';
-import UserList from './UserList';
-import MessageList from './MessageList';
+import Users from './Users';
+import Messages from './Messages';
 import Mine from './Mine';
 import styles from './index.less';
 
@@ -18,8 +18,8 @@ const navBarTitleMap = {
   mine: '个人中心'
 };
 const routes = [
-  { path: '/dashboard/user', component: UserList },
-  { path: '/dashboard/message', component: MessageList },
+  { path: '/dashboard/user', component: Users },
+  { path: '/dashboard/message', component: Messages },
   { path: '/dashboard/mine', component: Mine },
 ];
 const mapStateToProps = ({ userState }) => ({
